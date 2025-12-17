@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import User from "./user/pages/User";
 import NewPlace from "./places/pages/NewPlace";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import UserPlaces from "./places/pages/UserPlaces";
 
 function App() {
   return (
@@ -12,8 +13,8 @@ function App() {
       <Routes>
        
         <Route path="/ahmed" element={<User />} />
-       
-        <Route path="/ui/places" element={<NewPlace />} />
+        <Route path="/:userId/places" element={<UserPlaces />} />
+        <Route path="/:userId/places" element={<NewPlace />} />
 
         {/* catch-all route */}
         <Route path="*" element={<Navigate to="/ahmed" replace />} />
