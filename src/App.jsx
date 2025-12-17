@@ -13,7 +13,7 @@ function App() {
        
         <Route path="/ahmed" element={<User />} />
        
-        <Route path="/place" element={<NewPlace />} />
+        <Route path="/ui/places" element={<NewPlace />} />
 
         {/* catch-all route */}
         <Route path="*" element={<Navigate to="/ahmed" replace />} />
