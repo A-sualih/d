@@ -14,7 +14,7 @@ function App() {
        
         <Route path="/ahmed" element={<User />} />
         <Route path="/:userId/places" element={<UserPlaces />} />
-        <Route path="/:userId/places" element={<NewPlace />} />
+        <Route path="/places/new" element={<NewPlace />} />
 
         {/* catch-all route */}
         <Route path="*" element={<Navigate to="/ahmed" replace />} />
