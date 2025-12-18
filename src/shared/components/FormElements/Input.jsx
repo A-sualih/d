@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import "./Input.css";
 import { validate } from "../../util/validators";
 const inputReducer = (state, action) => {
@@ -7,29 +7,38 @@ const inputReducer = (state, action) => {
       return {
         ...state,
         value: action.val,
-        isValid: validate(action.val,action.validators),
+        isValid: validate(action.val, action.validators),
       };
-      case "TOUCH":
-        return{
-            ...state,
-            isTouched:true
-        }
+    case "TOUCH":
+      return {
+        ...state,
+        isTouched: true,
+      };
   }
 };
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: "",
     isValid: false,
-    isTouched:false
+    isTouched: false,
   });
+  const {id,onInput}=props;
+  const {value,isValid}=inputState;
+  useEffect(() => {
+    onInput(id, value, isValid);
+  }, [id, value,isValid,onInput]);
   const onChageHandler = (event) => {
-    dispatch({ type: "CHANGE", val: event.target.value, validators:props.validators });
+    dispatch({
+      type: "CHANGE",
+      val: event.target.value,
+      validators: props.validators,
+    });
   };
-    const touchHandler=()=>{
-        dispatch({
-            type:"TOUCH"
-        })
-    }
+  const touchHandler = () => {
+    dispatch({
+      type: "TOUCH",
+    });
+  };
   const element =
     props.element === "input" ? (
       <input
@@ -37,7 +46,7 @@ const Input = (props) => {
         id={props.id}
         placeholder={props.placeholder}
         onChange={onChageHandler}
-             onBlur={touchHandler}
+        onBlur={touchHandler}
         value={inputState.value}
       />
     ) : (
@@ -50,12 +59,15 @@ const Input = (props) => {
       />
     );
   return (
-    <div className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid' }`}>
+    <div
+      className={`form-control ${
+        !inputState.isValid && inputState.isTouched && "form-control--invalid"
+      }`}
+    >
       <label htmlFor={props.id}>{props.label}</label>
       {element}
       {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
     </div>
-
   );
 };
 
